@@ -1,0 +1,19 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud: INFO
+    org.springframework.web: INFO
+
+spring:
+  jackson:
+    default-property-inclusion: non_null
