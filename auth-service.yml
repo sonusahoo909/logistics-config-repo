@@ -30,3 +30,6 @@ eureka:
 jwt:
   secret: logistics-secret-key-logistics-secret-key-logistics-secret-key
   expiration: 86400000
+
+app:
+  message: Hello from Spring Cloud Config Server
