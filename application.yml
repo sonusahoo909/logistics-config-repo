@@ -1,3 +1,32 @@
+# management:
+#   endpoints:
+#     web:
+#       exposure:
+#         include: health,info
+
+#   endpoint:
+#     health:
+#       show-details: always
+
+# logging:
+#   level:
+#     root: INFO
+#     org.springframework.cloud: INFO
+#     org.springframework.web: INFO
+
+# spring:
+#   jackson:
+#     default-property-inclusion: non_null
+
+spring:
+  jackson:
+    default-property-inclusion: non_null
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
 management:
   endpoints:
     web:
@@ -14,6 +43,6 @@ logging:
     org.springframework.cloud: INFO
     org.springframework.web: INFO
 
-spring:
-  jackson:
-    default-property-inclusion: non_null
+jwt:
+  secret: logistics-secret-key-logistics-secret-key-logistics-secret-key
+  expiration: 86400000
