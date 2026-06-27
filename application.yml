@@ -26,6 +26,14 @@ management:
       percentiles-histogram:
         http.server.requests: true
 
+logging:
+  pattern:
+    # Used by Spring Boot's structured logging support
+    correlation: "[${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+    # Your existing console pattern
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{X-Correlation-Id}] %logger{36} - %msg%n"
+
 resilience4j:
   circuitbreaker:
     configs:
@@ -73,7 +81,3 @@ resilience4j:
 
       authService:
         timeoutDuration: 2s
-
-logging:
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{X-Correlation-Id}] %logger{36} - %msg%n"
