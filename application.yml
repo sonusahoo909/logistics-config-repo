@@ -2,34 +2,41 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,refresh,metrics,circuitbreakers,circuitbreakerevents
+        include: health,info,refresh,metrics,prometheus,circuitbreakers,circuitbreakerevents
 
   endpoint:
     health:
       show-details: always
 
+    metrics:
+      enabled: true
+
+    prometheus:
+      enabled: true
+
   health:
     circuitbreakers:
       enabled: true
+
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
 
 resilience4j:
   circuitbreaker:
     configs:
       default:
         registerHealthIndicator: true
-
         slidingWindowType: COUNT_BASED
-
         slidingWindowSize: 10
-
         minimumNumberOfCalls: 5
-
         failureRateThreshold: 50
-
         waitDurationInOpenState: 20s
-
         permittedNumberOfCallsInHalfOpenState: 3
-
         automaticTransitionFromOpenToHalfOpenEnabled: true
 
     instances:
@@ -46,17 +53,14 @@ resilience4j:
     instances:
       shipmentService:
         maxAttempts: 3
-
         waitDuration: 1s
 
       driverService:
         maxAttempts: 3
-
         waitDuration: 1s
 
       authService:
         maxAttempts: 3
-
         waitDuration: 1s
 
   timelimiter:
