@@ -14,6 +14,11 @@ management:
     prometheus:
       enabled: true
 
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+
   health:
     circuitbreakers:
       enabled: true
@@ -28,11 +33,8 @@ management:
 
 logging:
   pattern:
-    # Used by Spring Boot's structured logging support
     correlation: "[${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
-
-    # Your existing console pattern
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{X-Correlation-Id}] %logger{36} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{X-Correlation-Id}] [%X{traceId:-}] [%X{spanId:-}] %logger{36} - %msg%n"
 
 resilience4j:
   circuitbreaker:
