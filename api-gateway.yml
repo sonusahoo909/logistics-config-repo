@@ -7,8 +7,28 @@ spring:
 
   cloud:
     gateway:
-      routes:
-        # All existing routes
+      server:
+        webflux:
+          routes:
+            - id: auth-service
+              uri: lb://auth-service
+              predicates:
+                - Path=/api/auth/**,/api/roles/**
+
+            - id: shipment-service
+              uri: lb://shipment-service
+              predicates:
+                - Path=/api/shipments/**
+
+            - id: driver-service
+              uri: lb://driver-service
+              predicates:
+                - Path=/api/drivers/**
+
+            - id: dashboard-service
+              uri: lb://dashboard-service
+              predicates:
+                - Path=/api/dashboard/**
 
 eureka:
   client:
