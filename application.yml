@@ -37,7 +37,7 @@ resilience4j:
         failureRateThreshold: 50
         waitDurationInOpenState: 20s
         permittedNumberOfCallsInHalfOpenState: 3
-        automaticTransitionFromOpenToHalfOpenEnabled: true
+        automaticTransitionFromOpenToHalfOpenStateEnabled: true
 
     instances:
       shipmentService:
@@ -73,3 +73,7 @@ resilience4j:
 
       authService:
         timeoutDuration: 2s
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{X-Correlation-Id}] %logger{36} - %msg%n"
