@@ -1,48 +1,71 @@
-# management:
-#   endpoints:
-#     web:
-#       exposure:
-#         include: health,info
-
-#   endpoint:
-#     health:
-#       show-details: always
-
-# logging:
-#   level:
-#     root: INFO
-#     org.springframework.cloud: INFO
-#     org.springframework.web: INFO
-
-# spring:
-#   jackson:
-#     default-property-inclusion: non_null
-
-spring:
-  jackson:
-    default-property-inclusion: non_null
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
-jwt:
-  secret: logistics-secret-key-logistics-secret-key-logistics-secret-key
-  expiration: 86400000
-
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,refresh
+        include: health,info,refresh,metrics,circuitbreakers,circuitbreakerevents
 
   endpoint:
     health:
       show-details: always
 
-logging:
-  level:
-    root: INFO
-    org.springframework.cloud: INFO
-    org.springframework.web: INFO
+  health:
+    circuitbreakers:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+
+        slidingWindowType: COUNT_BASED
+
+        slidingWindowSize: 10
+
+        minimumNumberOfCalls: 5
+
+        failureRateThreshold: 50
+
+        waitDurationInOpenState: 20s
+
+        permittedNumberOfCallsInHalfOpenState: 3
+
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+
+    instances:
+      shipmentService:
+        baseConfig: default
+
+      driverService:
+        baseConfig: default
+
+      authService:
+        baseConfig: default
+
+  retry:
+    instances:
+      shipmentService:
+        maxAttempts: 3
+
+        waitDuration: 1s
+
+      driverService:
+        maxAttempts: 3
+
+        waitDuration: 1s
+
+      authService:
+        maxAttempts: 3
+
+        waitDuration: 1s
+
+  timelimiter:
+    instances:
+      shipmentService:
+        timeoutDuration: 2s
+
+      driverService:
+        timeoutDuration: 2s
+
+      authService:
+        timeoutDuration: 2s
